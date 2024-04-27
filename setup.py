@@ -19,6 +19,7 @@ import subprocess
 import sys
 
 from setuptools import setup, find_packages
+from security import safe_command
 
 project_name = 'jax'
 
@@ -53,7 +54,7 @@ def generate_proto(source):
   if not protoc or not os.path.exists(source):
     return
   protoc_command = [protoc, '-I.', '--python_out=.', source]
-  if subprocess.call(protoc_command) != 0:
+  if safe_command.run(subprocess.call, protoc_command) != 0:
     sys.exit(-1)
 
 generate_proto("jax/experimental/australis/executable.proto")
