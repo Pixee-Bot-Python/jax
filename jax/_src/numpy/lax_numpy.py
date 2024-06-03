@@ -1239,9 +1239,8 @@ def _split(op: str, ary: ArrayLike,
   ary = asarray(ary)
   axis = core.concrete_or_error(operator.index, axis, f"in jax.numpy.{op} argument `axis`")
   size = ary.shape[axis]
-  if (isinstance(indices_or_sections, (tuple, list)) or
-      isinstance(indices_or_sections, (np.ndarray, Array)) and
-      indices_or_sections.ndim > 0):
+  if isinstance(indices_or_sections, (tuple, list, np.ndarray, Array)) and
+      indices_or_sections.ndim > 0:
     indices_or_sections = [
         core.concrete_dim_or_error(i_s, f"in jax.numpy.{op} argument 1")
         for i_s in indices_or_sections]
