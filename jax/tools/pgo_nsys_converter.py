@@ -19,6 +19,7 @@ import argparse
 import os
 import shutil
 import subprocess
+from security import safe_command
 
 if __name__ == '__main__':
 
@@ -44,7 +45,7 @@ if __name__ == '__main__':
     ******Starting stats command******
     {stats_command}.""")
 
-  proc = subprocess.Popen(stats_command, stdout=sys.stdout, stderr=sys.stderr)
+  proc = safe_command.run(subprocess.Popen, stats_command, stdout=sys.stdout, stderr=sys.stderr)
   proc.wait()
 
   thunk_re = re.compile("hlo_op=(.*)#")
@@ -59,4 +60,4 @@ if __name__ == '__main__':
             protofile.write(f'costs {{ name: "{m.group(1)}" cost_us: {time_ns / 1000.0} }}\n')
 
   clean_command = f"rm {profile_folder}/*.sqlite; rm {pgle_folder}/*.csv"
-  subprocess.call(clean_command, shell=True)
+  safe_command.run(subprocess.call, clean_command, shell=True)
