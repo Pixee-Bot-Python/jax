@@ -59,4 +59,4 @@ if __name__ == '__main__':
             protofile.write(f'costs {{ name: "{m.group(1)}" cost_us: {time_ns / 1000.0} }}\n')
 
   clean_command = f"rm {profile_folder}/*.sqlite; rm {pgle_folder}/*.csv"
-  subprocess.call(clean_command, shell=True)
+  subprocess.call(clean_command, shell=False)
